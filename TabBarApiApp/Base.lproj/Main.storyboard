@@ -18,7 +18,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Photoframe" image="photo.artframe" catalog="system" selectedImage="photo.artframe" id="OrC-Zw-8TR"/>
+                    <tabBarItem key="tabBarItem" title="Photoframe" image="photo.fill" catalog="system" selectedImage="photo.fill" id="OrC-Zw-8TR"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -34,27 +34,27 @@
                         <viewLayoutGuide key="safeArea" id="CWK-Dr-EhN"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 2" id="dQi-5B-wQn"/>
+                    <tabBarItem key="tabBarItem" title="Item 2" image="person.and.background.striped.horizontal" catalog="system" selectedImage="person.and.background.striped.horizontal" id="dQi-5B-wQn"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FF2-eS-dZC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-54" y="481"/>
         </scene>
-        <!--Item 1-->
+        <!--Article ListVC-->
         <scene sceneID="LO1-Z0-l6T">
             <objects>
-                <viewController storyboardIdentifier="SecondVC" id="JtV-0b-st7" customClass="SecondVC" customModule="TabBarApiApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ArticleListVC" id="JtV-0b-st7" customClass="ArticleListVC" customModule="TabBarApiApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="goY-1m-dJJ">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="LTR-UH-lla"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 1" id="SZM-tY-r0O"/>
+                    <navigationItem key="navigationItem" id="fa2-MC-jVe"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="beG-cR-SZU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="262" y="-352"/>
+            <point key="canvasLocation" x="1188.5496183206105" y="-352.11267605633805"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="9A3-r1-fIl">
@@ -66,7 +66,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="JtV-0b-st7" kind="relationship" relationship="viewControllers" id="HAr-pJ-IV6"/>
+                        <segue destination="cdk-sJ-nN8" kind="relationship" relationship="viewControllers" id="HAr-pJ-IV6"/>
                         <segue destination="9hF-B3-tsL" kind="relationship" relationship="viewControllers" id="86g-AC-kHh"/>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="p6W-i4-ziW"/>
                     </connections>
@@ -75,9 +75,30 @@
             </objects>
             <point key="canvasLocation" x="-969" y="-298"/>
         </scene>
+        <!--Articles-->
+        <scene sceneID="doI-wY-pDN">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cdk-sJ-nN8" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Articles" image="newspaper.fill" catalog="system" selectedImage="newspaper.fill" id="SZM-tY-r0O"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="4bh-IY-qqt">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="JtV-0b-st7" kind="relationship" relationship="rootViewController" id="js0-5N-vP4"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cur-Or-7Aw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="261.83206106870227" y="-352.11267605633805"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="photo.artframe" catalog="system" width="128" height="93"/>
+        <image name="newspaper.fill" catalog="system" width="128" height="112"/>
+        <image name="person.and.background.striped.horizontal" catalog="system" width="128" height="99"/>
+        <image name="photo.fill" catalog="system" width="128" height="93"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
