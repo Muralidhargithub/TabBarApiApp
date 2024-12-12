@@ -15,7 +15,7 @@ class PhotoViewModel {
 
     // MARK: - Fetch Photos
     func fetchPhotos() async {
-        guard let url = URL(string: commonUrl.baseURL) else {
+        guard let url = URL(string: commonUrl.photos) else {
             onPhotosFetchFailure?("Invalid URL")
             return
         }

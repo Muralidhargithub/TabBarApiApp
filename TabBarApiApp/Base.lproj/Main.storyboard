@@ -24,7 +24,7 @@
             </objects>
             <point key="canvasLocation" x="-921" y="-1096"/>
         </scene>
-        <!--Item 2-->
+        <!--Subscribers-->
         <scene sceneID="3HX-0Y-yPM">
             <objects>
                 <viewController storyboardIdentifier="thirdVC" id="9hF-B3-tsL" customClass="thirdVC" customModule="TabBarApiApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -34,7 +34,7 @@
                         <viewLayoutGuide key="safeArea" id="CWK-Dr-EhN"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 2" image="person.and.background.striped.horizontal" catalog="system" selectedImage="person.and.background.striped.horizontal" id="dQi-5B-wQn"/>
+                    <tabBarItem key="tabBarItem" title="Subscribers" image="person.and.background.striped.horizontal" catalog="system" selectedImage="person.and.background.striped.horizontal" id="dQi-5B-wQn"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FF2-eS-dZC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

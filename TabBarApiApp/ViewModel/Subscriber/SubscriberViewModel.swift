@@ -25,7 +25,7 @@ class SubscriberViewModel {
     
     // MARK: - Fetch Subscribers
     func fetchSubscribers() async {
-        let url = subscribercommonUrl.baseURL
+        let url = commonUrl.subscriber
         do {
             let result: Subscriber = try await subscriberData.getData(url: url)
             DispatchQueue.main.async {

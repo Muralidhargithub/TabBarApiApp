@@ -14,7 +14,7 @@ class ArticleViewModel {
     var onFetchSucess: (() -> ())?
     
     func fetchArticles() async {
-        let url = ServerConstants.baseUrl
+        let url = commonUrl.article
         
         do {
             // Fetch the raw data
