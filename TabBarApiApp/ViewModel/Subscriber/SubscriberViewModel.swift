@@ -11,7 +11,7 @@ import UIKit
 
 class SubscriberViewModel {
     // MARK: - Properties
-    private let subscriberData: SubscriberPro
+    private let subscriberData: ImageDef
     private(set) var subscribers: [SubscriberDetails] = []
     private var imageCache: [URL: UIImage] = [:]
     
@@ -19,7 +19,7 @@ class SubscriberViewModel {
     var onFetchFailure: ((String) -> Void)?
     
     // MARK: - Initializer
-    init(subscriberData: SubscriberPro = SubscribeNetwork.subInstance) {
+    init(subscriberData: ImageDef = ImageNetwork.sharedInstance) {
         self.subscriberData = subscriberData
     }
     
