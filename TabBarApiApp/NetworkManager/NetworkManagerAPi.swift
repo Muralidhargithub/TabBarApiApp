@@ -11,7 +11,7 @@ import UIKit
 
 // Protocol for fetching data and images
 protocol ImageDef {
-    func getData<T: Codable>(url: String) async throws -> T
+    func getData<T: Decodable>(url: String) async throws -> T
     func getImage(url: String) async throws -> UIImage
 }
 
@@ -29,7 +29,7 @@ class ImageNetwork: ImageDef {
     }
     
     // MARK: Function to fetch data
-    func getData<T: Codable>(url: String) async throws -> T {
+    func getData<T: Decodable>(url: String) async throws -> T {
         guard let serverURL = URL(string: url) else {
             throw NetworkError.invalidURL
         }

@@ -19,24 +19,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window = UIWindow(windowScene: windowScene)
 
             // Create the tab bar controller
-            let tabBarController = UITabBarController()
+            let mainTabBarController = MainTabBarController()
 
-            // Create view controllers
-            let PhotoVC = FirstVC()
-            let SubscriberVC = thirdVC()
-            let ArticleVC = ArticleListVC()
-            let articleNavController = UINavigationController(rootViewController: ArticleVC)
-            // Set tab bar items
-            PhotoVC.tabBarItem = UITabBarItem(title: "Photos", image: UIImage(systemName: "star"), tag: 0)
-            SubscriberVC.tabBarItem = UITabBarItem(title: "Subscribers", image: UIImage(systemName: "star.fill"), tag: 1)
-            articleNavController.tabBarItem = UITabBarItem(title: "Articles", image: UIImage(systemName: "star"), tag: 2)
-
-
-            // Set the view controllers for the tab bar controller
-            tabBarController.viewControllers = [articleNavController, SubscriberVC,PhotoVC]
-
-            // Set the window's root view controller
-            window?.rootViewController = tabBarController
+        window?.rootViewController = mainTabBarController
             window?.makeKeyAndVisible()
         }
 
