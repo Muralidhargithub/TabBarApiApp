@@ -25,55 +25,94 @@ class MainTabBarController: UITabBarController {
     }
     
     func validateAPIsSequentiallyAndSetupTabs() {
-        Task {
-            var validatedTabs: [UIViewController] = []
-            let typeMap: [Decodable.Type] = [Subscriber.self, [Photo].self, Article.self]
-            
-            for (index, (url, title)) in endpoints.enumerated() {
+        let dispatchGroup = DispatchGroup()
+        var validatedTabs: [UIViewController] = []
+        var encounteredError: Error? = nil
+        let typeMap: [Decodable.Type] = [Subscriber.self, [Photo].self, Article.self]
+
+        DispatchQueue.global(qos: .userInitiated).async {
+            for (index, (url, title)) in self.endpoints.enumerated() {
+                dispatchGroup.enter()
+
                 do {
                     if let targetType = typeMap[index] as? Decodable.Type {
-                        try await fetchAndValidateData(url: url, type: targetType)
-                        
-                        
-                        // If successful, add the corresponding tab
-                        let viewController = getViewController(for: index)
-                        let navVC = UINavigationController(rootViewController: viewController)
-                        navVC.tabBarItem = UITabBarItem(title: title, image: UIImage(systemName: "\(index + 1).circle"), tag: index)
-                        validatedTabs.append(navVC)
-                        
-                        // Update the UI with validated tabs so far
-                        DispatchQueue.main.async {
-                            self.viewControllers = validatedTabs
-                        }
+                        try self.fetchAndValidateDataSync(url: url, type: targetType)
                     }
-                    
-                } catch {
-                    // Show an error alert and stop further processing only if the first API fails
+
                     DispatchQueue.main.async {
-                        self.showErrorAlert(for: title, error: error)
-                        if index == 0 {
-                            self.viewControllers = [] // Clear all tabs if the first API fails
-                        }
+                        let viewController = self.getViewController(for: index)
+                        let navVC = UINavigationController(rootViewController: viewController)
+                        navVC.tabBarItem = UITabBarItem(
+                            title: title,
+                            image: UIImage(systemName: "\(index + 1).circle"),
+                            tag: index
+                        )
+                        validatedTabs.append(navVC)
+                        self.viewControllers = validatedTabs
                     }
-                    break 
+                } catch let error {
+                    encounteredError = error
+
+                    DispatchQueue.main.async {
+                        if index == 0 {
+                            self.viewControllers = []
+                        }
+                        self.showErrorAlert(for: title, error: error)
+                    }
+                    break
+                }
+
+                dispatchGroup.leave()
+                dispatchGroup.wait()
+            }
+
+            dispatchGroup.notify(queue: .main) {
+                if let error = encounteredError {
+                    print("Validation stopped due to error: \(error.localizedDescription)")
                 }
             }
         }
     }
-    
-    func fetchAndValidateData<T: Decodable>(url: String, type: T.Type) async throws {
-        _ = try await ImageNetwork.sharedInstance.getData(url: url) as T
-    }
-    
     private func getViewController(for index: Int) -> UIViewController {
         switch index {
-        case 0: return thirdVC()        // Subscribers
-        case 1: return FirstVC()        // Photos
-        case 2: return ArticleListVC()  // Articles
-        default: return UIViewController()
+        case 0:
+            return thirdVC()
+        case 1:
+            return FirstVC()
+        case 2:
+            return ArticleListVC()
+        default:
+            return UIViewController()
         }
     }
-    
+
+
+    private func fetchAndValidateDataSync<T: Decodable>(url: String, type: T.Type) throws {
+        let semaphore = DispatchSemaphore(value: 0)
+        var result: Result<T, Error>!
+
+        Task {
+            do {
+                let data = try await ImageNetwork.sharedInstance.getData(url: url) as T
+                result = .success(data)
+            } catch {
+                result = .failure(error)
+            }
+            semaphore.signal()
+        }
+
+        semaphore.wait()
+
+        switch result {
+        case .success:
+            return
+        case .failure(let error):
+            throw error
+        case .none:
+            throw NetworkError.invalidData
+        }
+    }
+
     private func showErrorAlert(for tabName: String, error: Error) {
         let alert = UIAlertController(
             title: "API Error",
