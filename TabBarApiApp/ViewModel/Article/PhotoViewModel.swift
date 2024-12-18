@@ -21,7 +21,7 @@ class PhotoViewModel {
         }
 
         do {
-            let fetchedPhotos: [Photo] = try await photoService.getData(url: url.absoluteString)
+            let fetchedPhotos: [Photo] = try await photoService.getData(from: url.absoluteString, decodingType: [Photo].self )
             DispatchQueue.main.async {
                 self.photos = fetchedPhotos
                 self.onPhotosFetchSuccess?()

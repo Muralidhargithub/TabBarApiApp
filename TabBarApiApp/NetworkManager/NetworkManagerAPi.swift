@@ -11,7 +11,7 @@ import UIKit
 
 // Protocol for fetching data and images
 protocol ImageDef {
-    func getData<T: Decodable>(url: String) async throws -> T
+    func getData<T: Codable>(from urlString: String, decodingType: T.Type) async throws -> T
     func getImage(url: String) async throws -> UIImage
 }
 
@@ -29,23 +29,19 @@ class ImageNetwork: ImageDef {
     }
     
     // MARK: Function to fetch data
-    func getData<T: Decodable>(url: String) async throws -> T {
-        guard let serverURL = URL(string: url) else {
-            throw NetworkError.invalidURL
+    func getData<T: Codable>(from urlString: String, decodingType: T.Type) async throws -> T {
+            guard let url = URL(string: urlString) else {
+                throw NetworkError.invalidURL
+            }
+
+            let (data, response) = try await urlSession.data(from: url)
+
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                throw NetworkError.invalidResponse
+            }
+
+            return try JSONDecoder().decode(T.self, from: data)
         }
-        
-        let (data, response) = try await urlSession.data(from: serverURL)
-        
-        // Check for valid response 
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-            throw NetworkError.invalidResponse
-        }
-        
-        // Decode JSON data
-        let decoded = try JSONDecoder().decode(T.self, from: data)
-        return decoded
-    }
-    
     // MARK: Function to fetch Images with caching
     func getImage(url: String) async throws -> UIImage {
         // Check if the image is already cached
